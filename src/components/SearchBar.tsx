@@ -1,16 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PokemonDataTwo } from "../types";
 import { searchPokemonName } from "../apiServices";
+import useDebounce from "../hooks/useDebounce";
 interface basicProp {
   onRecieveData: (data: PokemonDataTwo) => void;
 }
 const SearchBar: React.FC<basicProp> = ({ onRecieveData }) => {
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-    const response = await searchPokemonName(e.target.value);
-    if (response) {
-      onRecieveData(response);
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm: string = useDebounce(searchTerm, 500);
+
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      console.log("search term found");
+      try {
+        const fetchData = async () => {
+          const response = await searchPokemonName(debouncedSearchTerm);
+          if (response) {
+            onRecieveData(response);
+          }
+        };
+        fetchData();
+      } catch (error) {
+        console.error(error);
+      }
     }
+  }, [debouncedSearchTerm]);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("change");
+    setSearchTerm(e.target.value);
   };
   return (
     <>
@@ -19,7 +36,7 @@ const SearchBar: React.FC<basicProp> = ({ onRecieveData }) => {
         type="text"
         name="search"
         id="searchBar"
-        defaultValue={""}
+        value={searchTerm}
         onChange={handleChange}
       />
     </>

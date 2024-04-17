@@ -13,14 +13,12 @@ const PokemonInfo: React.FC<pokeTypes.PokemonInfoProps> = ({
     const fetchAbilities = async () => {
       try {
         const response = await API.pokemonAbilityDescription(abilities);
-        console.log(response[0]);
         setAbilityDesc(response);
       } catch (e) {
         console.error(e + "ID incorrect?");
       }
     };
     fetchAbilities();
-    console.log(abilityDesc);
   }, [abilities]);
   return (
     <>
