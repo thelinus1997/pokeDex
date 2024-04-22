@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { PokemonDataTwo } from "../types";
+import { PokemonDataTwo, PokemonAbility } from "../types";
 import { searchPokemonName } from "../apiServices";
 import useDebounce from "../hooks/useDebounce";
 interface basicProp {

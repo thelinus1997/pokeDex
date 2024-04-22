@@ -18,7 +18,7 @@ async function searchPokemonName(name: string) {
     const response = await axios.get<types.PokemonDataTwo>(
       `${baseUrl}pokemon/${name}`
     );
-    console.log(response.data);
+    //console.log(response.data);
     return response.data;
   } catch (e) {
     console.error(e + "Did you enter an existing pokemon?");
